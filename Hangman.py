@@ -1,45 +1,73 @@
 import random
 word_list = ['performer', 'crackpot', 'combination', 'expertise', 'mourning', 'secretary', 'broccoli', 'health','outfit', 'timber', 'receipt', 'star', 'domestic', 'large', 'irony', 'root', 'building', 'laser','far', 'swim', 'lunch', 'budge', 'acceptable', 'tiptoe', 'museum', 'familiar', 'science', 'corruption','enlarge', 'musical', 'reliable', 'bite', 'rest', 'heel', 'atmosphere', 'secure', 'evoke', 'consolidate','modernize', 'joke', 'liability', 'enthusiasm', 'aspect', 'tendency', 'crime', 'hostile', 'orbit','ballet', 'clarify', 'stable']
-random_word = "combination"
-# For testing purposes, using a fixed word. When ready, replace with:
-#random_word = random.choice(word_list)
-# Create a string of underscores (with spaces in between for readability) to represent the word
+random_word = random.choice(word_list)
 wrd_holder = ' '.join("_" * len(random_word))
-
-# Convert the underscore string into a list for easier modification
+# Create a string of underscores (with spaces in between for readability)
+# to represent the word
 list_holder = list(wrd_holder)
+# Convert the underscore string into a list for easier modification
+incorrect_guess_holder = []
+# To keep track of incorrect guesses
 
-# To keep track of guessed positions
-
-# Number of guesses the user is allowed
 attempts_remaining = 5
+# Number of guesses the user is allowed
 
-# Main game loop - keeps running until the user runs out of attempts
-while attempts_remaining > 0:
-    print(f"Current guess: {wrd_holder}")  # Show current state of the word to the user
-    usr_input = input("Please guess a letter: ")
+def play_game():
+    global attempts_remaining
+    global wrd_holder
+    global random_word
+    global list_holder
+    global incorrect_guess_holder
 
-    # Initialize the index to search for the letter
-    index = random_word.find(usr_input)
+    while attempts_remaining > 0:
+        # Main game loop - keeps running until the user runs out of guesses and exits
+        print(f"Current guess: {wrd_holder}")  # Show current state of the word to the user
+        if not incorrect_guess_holder:
+            pass #No current incorrect guesses
+        else: print(f"Incorrect guesses: {incorrect_guess_holder}")
+        usr_input = input("Please guess a letter: ")
 
-    if index != -1:
-        # If the guessed letter is found, loop to find and update all occurrences of the letter
-        while index != -1:
-            # Store index where the letter was found
-            index *= 2
-            # Update the list_holder at the correct position with the guessed letter
-            list_holder[index] = usr_input
+        index = random_word.find(usr_input)
+        # Initialize the index to search for the letter
 
-            # Search for the next occurrence of the letter
-            index = random_word.find(usr_input, index + 1)
+        if index != -1:
+            # If the guessed letter is found, loop to find and update all occurrences of the letter
+            while index != -1:
+                # Store index where the letter was found
+                index *= 2
+                # Update the list_holder at the correct position with the guessed letter
+                list_holder[index] = usr_input
 
-        # Convert the list_holder back to a string to show progress to the user
-        wrd_holder = ''.join(list_holder)
+                # Search for the next occurrence of the letter
+                index = random_word.find(usr_input, index + 1)
+
+            # Convert the list_holder back to a string to show progress to the user
+            wrd_holder = ''.join(list_holder)
+        else:
+            incorrect_guess_holder.append(usr_input)
+            # If the letter is not found, notify the user and decrement the attempts
+            print(f"Wrong letter! {attempts_remaining - 1} attempts left.")
+            attempts_remaining -= 1
+        if attempts_remaining == 0:
+            start_again = input("Do you want to play again?")
+            if start_again.lower() in ("yes", "y"):
+                attempts_remaining = 5
+                incorrect_guess_holder = []
+                play_game()
+            else: raise SystemExit("Goodbye!")
+
+    print("Final word guess: ", wrd_holder)
+    print(random_word)
+try_count = 0
+while True:
+    if try_count == 5:
+        raise SystemExit("Really?")
+    gamestart = input("Start Game?")
+    if gamestart.lower() in ("yes", "y"):
+        play_game()
+        break
+    elif gamestart.lower() in ("no", "n"):
+        raise SystemExit("Goodbye!")
     else:
-        # If the letter is not found, notify the user and decrement the attempts
-        print(f"Wrong letter! {attempts_remaining - 1} attempts left.")
-        attempts_remaining -= 1
-
-# Final state of the game
-print("Final word guess: ", wrd_holder)
-print(random_word)
+        print("Invalid input! Yes or No")
+        try_count += 1
