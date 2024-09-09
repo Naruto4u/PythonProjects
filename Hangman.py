@@ -1,13 +1,13 @@
 
 attempts_remaining = 10
-incorrect_guess_holder = []
+guess_holder = []
 def game_restart():
     global attempts_remaining
-    global incorrect_guess_holder
+    global guess_holder
     start_again = input("Do you want to play again?")
     if start_again.lower() in ("yes", "y"):
         attempts_remaining = 10
-        incorrect_guess_holder = []
+        guess_holder = []
         play_game()
     else:
         raise SystemExit("Goodbye!")
@@ -21,18 +21,18 @@ def play_game():
     list_holder = list(wrd_holder)
     # Convert the underscore string into a list for easier modification
 
-    # To keep track of incorrect guesses
+    # To keep track of guesses
     global attempts_remaining
-    global incorrect_guess_holder
+    global guess_holder
     # Number of guesses the user is allowed
     while attempts_remaining > 0:
         # Main game loop - keeps running until the user runs out of guesses and exits
         wrd_holder_printed = " ".join(wrd_holder)
         print(f"Current guess: {wrd_holder_printed}")  # Show current state of the word to the user
 
-        if not incorrect_guess_holder:
-            pass #No current incorrect guesses
-        else: print(f"Incorrect guesses: {incorrect_guess_holder}")
+        if not guess_holder:
+            pass #No current guessed inputs
+        else: print(f"Already guessed: {guess_holder}")
         usr_input = input("Please guess a letter: ").strip().lower()
         if len(usr_input) > 1:
             print("----------------------------")
@@ -44,7 +44,7 @@ def play_game():
             print("\033[31mPlease input something\033[0m")
             print("-----------------------")
             continue
-        elif usr_input in incorrect_guess_holder:
+        elif usr_input in guess_holder:
             print("-------------------------------------")
             print("\033[31mYou have already guessed that letter\033[0m")
             print("-------------------------------------")
@@ -65,8 +65,9 @@ def play_game():
             print("--------------------------------------")
             print(f"{attempts_remaining} attempts left.")
             print("--------------------------------------")
+            guess_holder.append(usr_input)
         else:
-            incorrect_guess_holder.append(usr_input)
+            guess_holder.append(usr_input)
             # If the letter is not found, notify the user and decrement the attempts
             print("--------------------------------------")
             print(f"Wrong letter! {attempts_remaining - 1} attempts left.")
