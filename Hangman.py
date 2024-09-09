@@ -33,7 +33,7 @@ def play_game():
         if not incorrect_guess_holder:
             pass #No current incorrect guesses
         else: print(f"Incorrect guesses: {incorrect_guess_holder}")
-        usr_input = input("Please guess a letter: ").lower()
+        usr_input = input("Please guess a letter: ").strip().lower()
         if len(usr_input) > 1:
             print("----------------------------")
             print("\033[31mPlease only type one letter\033[0m")
