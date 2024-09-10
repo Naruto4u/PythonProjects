@@ -1,22 +1,21 @@
 
 attempts_remaining = 10
 incorrect_guess_holder = []
+def game_restart():
+    global attempts_remaining
+    global incorrect_guess_holder
+    start_again = input("Do you want to play again?")
+    if start_again.lower() in ("yes", "y"):
+        attempts_remaining = 10
+        incorrect_guess_holder = []
+        play_game()
+    else:
+        raise SystemExit("Goodbye!")
 def play_game():
-    def game_restart():
-        global attempts_remaining
-        global incorrect_guess_holder
-        start_again = input("Do you want to play again?")
-        if start_again.lower() in ("yes", "y"):
-            attempts_remaining = 10
-            incorrect_guess_holder = []
-            play_game()
-        else:
-            raise SystemExit("Goodbye!")
     import random
-    word_list = ['crackpot', 'combination', 'expertise', 'mourning', 'secretary', 'broccoli', 'health','outfit', 'timber', 'receipt', 'star', 'domestic', 'large', 'irony', 'root', 'building', 'laser','far', 'swim', 'lunch', 'budge', 'acceptable', 'tiptoe', 'museum', 'familiar', 'science', 'corruption','enlarge', 'musical', 'reliable', 'bite', 'rest', 'heel', 'atmosphere', 'secure', 'evoke','consolidate', 'modernize', 'joke', 'liability', 'enthusiasm', 'aspect', 'tendency', 'crime','hostile', 'orbit', 'ballet', 'clarify', 'stable']
-    #Test later 'performer'
-    random_word = "performer" #random.choice(word_list)
-    wrd_holder = ' '.join("_" * len(random_word))
+    word_list = ['performer', 'crackpot', 'combination', 'expertise', 'mourning', 'secretary', 'broccoli', 'health','outfit', 'timber', 'receipt', 'star', 'domestic', 'large', 'irony', 'root', 'building', 'laser','far', 'swim', 'lunch', 'budge', 'acceptable', 'tiptoe', 'museum', 'familiar', 'science', 'corruption','enlarge', 'musical', 'reliable', 'bite', 'rest', 'heel', 'atmosphere', 'secure', 'evoke','consolidate', 'modernize', 'joke', 'liability', 'enthusiasm', 'aspect', 'tendency', 'crime','hostile', 'orbit', 'ballet', 'clarify', 'stable']
+    random_word = "performer"#random.choice(word_list)
+    wrd_holder = ''.join("_" * len(random_word))
     # Create a string of underscores (with spaces in between for readability) to represent the word
 
     list_holder = list(wrd_holder)
@@ -28,23 +27,36 @@ def play_game():
     # Number of guesses the user is allowed
     while attempts_remaining > 0:
         # Main game loop - keeps running until the user runs out of guesses and exits
-        print(f"Current guess:{wrd_holder}")  # Show current state of the word to the user
+        wrd_holder_printed = " ".join(wrd_holder)
+        print(f"Current guess: {wrd_holder_printed}")  # Show current state of the word to the user
+
         if not incorrect_guess_holder:
             pass #No current incorrect guesses
         else: print(f"Incorrect guesses: {incorrect_guess_holder}")
-        usr_input = input("Please guess a letter: ").lower()
-
+        usr_input = input("Please guess a letter: ").strip().lower()
+        if len(usr_input) > 1:
+            print("----------------------------")
+            print("\033[31mPlease only type one letter\033[0m")
+            print("----------------------------")
+            continue
+        elif usr_input == "":
+            print("-----------------------")
+            print("\033[31mPlease input something\033[0m")
+            print("-----------------------")
+            continue
+        elif usr_input in incorrect_guess_holder:
+            print("-------------------------------------")
+            print("\033[31mYou have already guessed that letter\033[0m")
+            print("-------------------------------------")
+            continue
         index = random_word.find(usr_input)
         # Initialize the index to search for the letter
 
         if index != -1:
             # If the guessed letter is found, loop to find and update all occurrences of the letter
             while index != -1:
-                # Store index where the letter was found
-                index *= 2
                 # Update the list_holder at the correct position with the guessed letter
                 list_holder[index] = usr_input
-
                 # Search for the next occurrence of the letter
                 index = random_word.find(usr_input, index + 1)
 
@@ -65,7 +77,6 @@ def play_game():
             print("\033[32mGame Won!\033[0m")
             game_restart()
         if attempts_remaining == 0:
-            print(random_word)
             game_restart()
 
     print("Final word guess: ", wrd_holder)
