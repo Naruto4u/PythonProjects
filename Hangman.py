@@ -13,8 +13,9 @@ def play_game():
         else:
             raise SystemExit("Goodbye!")
     import random
-    word_list = ['performer', 'crackpot', 'combination', 'expertise', 'mourning', 'secretary', 'broccoli', 'health','outfit', 'timber', 'receipt', 'star', 'domestic', 'large', 'irony', 'root', 'building', 'laser','far', 'swim', 'lunch', 'budge', 'acceptable', 'tiptoe', 'museum', 'familiar', 'science', 'corruption','enlarge', 'musical', 'reliable', 'bite', 'rest', 'heel', 'atmosphere', 'secure', 'evoke','consolidate', 'modernize', 'joke', 'liability', 'enthusiasm', 'aspect', 'tendency', 'crime','hostile', 'orbit', 'ballet', 'clarify', 'stable']
-    random_word = random.choice(word_list)
+    word_list = ['crackpot', 'combination', 'expertise', 'mourning', 'secretary', 'broccoli', 'health','outfit', 'timber', 'receipt', 'star', 'domestic', 'large', 'irony', 'root', 'building', 'laser','far', 'swim', 'lunch', 'budge', 'acceptable', 'tiptoe', 'museum', 'familiar', 'science', 'corruption','enlarge', 'musical', 'reliable', 'bite', 'rest', 'heel', 'atmosphere', 'secure', 'evoke','consolidate', 'modernize', 'joke', 'liability', 'enthusiasm', 'aspect', 'tendency', 'crime','hostile', 'orbit', 'ballet', 'clarify', 'stable']
+    #Test later 'performer'
+    random_word = "performer" #random.choice(word_list)
     wrd_holder = ' '.join("_" * len(random_word))
     # Create a string of underscores (with spaces in between for readability) to represent the word
 
@@ -27,7 +28,7 @@ def play_game():
     # Number of guesses the user is allowed
     while attempts_remaining > 0:
         # Main game loop - keeps running until the user runs out of guesses and exits
-        print(f"Current guess: {wrd_holder}")  # Show current state of the word to the user
+        print(f"Current guess:{wrd_holder}")  # Show current state of the word to the user
         if not incorrect_guess_holder:
             pass #No current incorrect guesses
         else: print(f"Incorrect guesses: {incorrect_guess_holder}")
@@ -64,6 +65,7 @@ def play_game():
             print("\033[32mGame Won!\033[0m")
             game_restart()
         if attempts_remaining == 0:
+            print(random_word)
             game_restart()
 
     print("Final word guess: ", wrd_holder)
