@@ -15,7 +15,7 @@ def game_restart():
 def play_game():
     import random
     word_list = ['performer', 'crackpot', 'combination', 'expertise', 'mourning', 'secretary', 'broccoli', 'health','outfit', 'timber', 'receipt', 'star', 'domestic', 'large', 'irony', 'root', 'building', 'laser','far', 'swim', 'lunch', 'budge', 'acceptable', 'tiptoe', 'museum', 'familiar', 'science', 'corruption','enlarge', 'musical', 'reliable', 'bite', 'rest', 'heel', 'atmosphere', 'secure', 'evoke','consolidate', 'modernize', 'joke', 'liability', 'enthusiasm', 'aspect', 'tendency', 'crime','hostile', 'orbit', 'ballet', 'clarify', 'stable']
-    random_word = "performer"#random.choice(word_list)
+    random_word = random.choice(word_list)
     wrd_holder = ''.join("_" * len(random_word))
     # Create a string of underscores (with spaces in between for readability) to represent the word
 
